@@ -8,18 +8,35 @@ jobs:
         uses: actions/checkout@v3
         with:
           sparse-checkout: |
-            path/to/your/file.txt
+            ./app/*
           sparse-checkout-cone-mode: false
 
       - name: build dockerfile
         run: |
+          cd app
           docker build -t nikhilsonawane2jpg/k8s-webapp:v1 .
           docker push nikhilsonawane2jpg/k8s-webapp:v1
 
   cd: 
+    needs: ci
     runs-on: self-hosted
-      steps:
-        - name: deploy
-          run : 
-  
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: |
+            yaml
+          sparse-checkout-cone-mode: false
+      - name: up database
+        run: |
+          
+          kubectl apply -f yaml/configmap.yaml
+          kubectl apply -f yaml/pv.yaml
+          kubectl apply -f yaml/secret.yaml
+          kubectl apply -f yaml/ingress.yaml
+          kubectl apply -f yaml/statefulset.yaml
+      - name: wait for db
+        run: sleep 60
+      - name: run app
+        run: kubectl apply -f yaml/app-deployment.yaml
       
