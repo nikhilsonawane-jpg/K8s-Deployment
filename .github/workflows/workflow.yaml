@@ -2,7 +2,7 @@ name: deployment
 on: workflow_dispatch
 jobs:
   ci:
-    runs-on: [self-hosted, mac-runner]
+    runs-on: [self-hosted, macOS]
     steps:
       - name: checkout code
         uses: actions/checkout@v3
@@ -19,7 +19,7 @@ jobs:
 
   cd: 
     needs: ci
-    runs-on: [self-hosted, linux-runner]
+    runs-on: [self-hosted, Linux]
     steps:
       - name: checkout code
         uses: actions/checkout@v3
