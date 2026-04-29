@@ -8,11 +8,12 @@ jobs:
         uses: actions/checkout@v3
         with:
           sparse-checkout: |
-            ./app/*
+            app
           sparse-checkout-cone-mode: false
 
       - name: build dockerfile
         run: |
+          ls -R
           cd app
           docker build -t nikhilsonawane2jpg/k8s-webapp:v1 .
           docker push nikhilsonawane2jpg/k8s-webapp:v1
