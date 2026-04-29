@@ -1,0 +1,25 @@
+name: deployment
+on: workflow_dispatch
+jobs:
+  ci:
+    runs-on: self-hosted
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: |
+            path/to/your/file.txt
+          sparse-checkout-cone-mode: false
+
+      - name: build dockerfile
+        run: |
+          docker build -t nikhilsonawane2jpg/k8s-webapp:v1 .
+          docker push nikhilsonawane2jpg/k8s-webapp:v1
+
+  cd: 
+    runs-on: self-hosted
+      steps:
+        - name: deploy
+          run : 
+  
+      
